@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ Demostración de Clickjacking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/educativo.css">
+</head>
+
+<body>
+    <div class="reveal-animation" id="revealAnimation">
+        <div class="glitch-text">CLICKJACKING</div>
+    </div>
+
+    <main class="edu-main" id="eduMain">
+        <!-- Alert header -->
+        <div class="alert-header">
+            <div class="alert-icon">
+                <span class="material-icons">warning</span>
+            </div>
+            <h1>¡Acabas de ser víctima de Clickjacking!</h1>
+            <p class="subtitle">Esto fue una demostración educativa. Tu información está segura.</p>
+        </div>
+
+        <!-- What happened -->
+        <section class="edu-section">
+            <h2><span class="material-icons">help_outline</span> ¿Qué acaba de pasar?</h2>
+            <div class="explanation-card">
+                <div class="step-flow">
+                    <div class="step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h3>Te mostramos una página falsa</h3>
+                            <p>La página imitaba Google Drive compartiendo fotos con un diseño convincente.</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><span class="material-icons">arrow_downward</span></div>
+                    <div class="step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h3>Hiciste clic en "Ver Fotos"</h3>
+                            <p>El botón parecía inofensivo, pero en realidad activó la API de geolocalización del
+                                navegador.</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><span class="material-icons">arrow_downward</span></div>
+                    <div class="step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h3>El navegador pidió tu ubicación</h3>
+                            <p>Si aceptaste el permiso, tu ubicación (latitud, longitud) fue enviada al servidor del
+                                "atacante".</p>
+                        </div>
+                    </div>
+                    <div class="step-arrow"><span class="material-icons">arrow_downward</span></div>
+                    <div class="step">
+                        <div class="step-num">4</div>
+                        <div class="step-content">
+                            <h3>El atacante ve tu ubicación en un mapa</h3>
+                            <p>En el <a href="/dashboard">dashboard del atacante</a>, se puede ver exactamente dónde te
+                                encuentras.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is clickjacking -->
+        <section class="edu-section">
+            <h2><span class="material-icons">security</span> ¿Qué es el Clickjacking?</h2>
+            <div class="info-card">
+                <p><strong>Clickjacking</strong> (también llamado <em>"UI Redress Attack"</em>) es una técnica de ataque
+                    donde un usuario es engañado para hacer clic en algo diferente a lo que percibe, potencialmente
+                    revelando información confidencial o permitiendo acciones no autorizadas.</p>
+                <div class="technique-grid">
+                    <div class="technique">
+                        <span class="material-icons">layers</span>
+                        <h4>Superposición de capas</h4>
+                        <p>Se coloca un elemento transparente o invisible sobre un botón legítimo</p>
+                    </div>
+                    <div class="technique">
+                        <span class="material-icons">psychology</span>
+                        <h4>Ingeniería social</h4>
+                        <p>Se usa un contexto convincente (como "ver fotos") para motivar el clic</p>
+                    </div>
+                    <div class="technique">
+                        <span class="material-icons">api</span>
+                        <h4>APIs del navegador</h4>
+                        <p>Se aprovechan permisos como geolocalización, cámara o micrófono</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How to protect yourself -->
+        <section class="edu-section">
+            <h2><span class="material-icons">shield</span> ¿Cómo protegerse?</h2>
+            <div class="protection-grid">
+                <div class="protection-card">
+                    <span class="material-icons">code</span>
+                    <h3>Para desarrolladores</h3>
+                    <ul>
+                        <li>Usar header <code>X-Frame-Options: DENY</code></li>
+                        <li>Implementar <code>Content-Security-Policy: frame-ancestors 'none'</code></li>
+                        <li>Usar <code>SameSite</code> cookies</li>
+                        <li>Implementar tokens anti-CSRF</li>
+                    </ul>
+                </div>
+                <div class="protection-card">
+                    <span class="material-icons">person</span>
+                    <h3>Para usuarios</h3>
+                    <ul>
+                        <li>Revisar la URL antes de interactuar</li>
+                        <li>Desconfiar de enlaces de "fotos compartidas"</li>
+                        <li>No aceptar permisos de ubicación en sitios desconocidos</li>
+                        <li>Mantener el navegador actualizado</li>
+                        <li>Usar extensiones que detectan frames ocultos</li>
+                    </ul>
+                </div>
+                <div class="protection-card">
+                    <span class="material-icons">lightbulb</span>
+                    <h3>Señales de alerta</h3>
+                    <ul>
+                        <li>URL sospechosa que no es del dominio oficial</li>
+                        <li>Pedir permisos inesperados</li>
+                        <li>Páginas que se ven "casi iguales" al original</li>
+                        <li>Urgencia o presión para hacer clic</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Real world examples -->
+        <section class="edu-section">
+            <h2><span class="material-icons">public</span> Casos reales</h2>
+            <div class="cases-list">
+                <div class="case-card">
+                    <strong>Facebook (2008)</strong> — Atacantes usaron clickjacking para que usuarios dieran "Like" a
+                    páginas sin saberlo ("likejacking").
+                </div>
+                <div class="case-card">
+                    <strong>Adobe Flash</strong> — Clickjacking permitió activar la cámara/micrófono del usuario a
+                    través de la configuración de Flash.
+                </div>
+                <div class="case-card">
+                    <strong>Twitter (2009)</strong> — Un gusano de clickjacking hizo que miles de usuarios retuitearan
+                    un enlace malicioso automáticamente.
+                </div>
+            </div>
+        </section>
+
+        <footer class="edu-footer">
+            <p>🎓 Demostración creada con fines educativos para clase de Seguridad Informática</p>
+            <div class="footer-links">
+                <a href="/dashboard" class="footer-link">
+                    <span class="material-icons">dashboard</span> Ver Dashboard del Atacante
+                </a>
+                <a href="/" class="footer-link">
+                    <span class="material-icons">replay</span> Ver la página trampa de nuevo
+                </a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        // Reveal animation
+        const reveal = document.getElementById('revealAnimation');
+        const main = document.getElementById('eduMain');
+
+        setTimeout(() => {
+            reveal.classList.add('fade-out');
+            main.classList.add('visible');
+        }, 2000);
+
+        setTimeout(() => {
+            reveal.style.display = 'none';
+        }, 2800);
+    </script>
+</body>
+
+</html>
